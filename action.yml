@@ -1,0 +1,16 @@
+name: 'My Custom Action'
+description: 'Say Hello'
+author: 'Mystic'
+branding:
+    icon: 'activity'
+    color: 'green'
+
+runs:
+    using: 'node22'
+    main: 'dist/index.js'
+
+inputs:
+    name:
+        description: 'The name of the person to greet'
+        required: true
+        default: 'World'
