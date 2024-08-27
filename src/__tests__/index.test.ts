@@ -36,7 +36,7 @@ describe("run", () => {
         (context as any).repo = { owner: "owner", repo: "repo" };
     });
 
-    it("should throw an error if not run on a pull request", async () => {
+    it("should set failed if not run on a pull request", async () => {
         (context as any).payload = {};
 
         await run();
@@ -47,8 +47,8 @@ describe("run", () => {
     it("should add label to the pull request", async () => {
         await run();
 
-        expect(mockGetInput).toHaveBeenCalledWith("gh-token");
-        expect(mockGetInput).toHaveBeenCalledWith("label");
+        expect(mockGetInput).toHaveBeenCalledWith("gh-token", { required: true });
+        expect(mockGetInput).toHaveBeenCalledWith("label", { required: true });
         expect(mockGetOctokit).toHaveBeenCalledWith("gh-token-value");
         expect(mockAddLabels).toHaveBeenCalledWith({
             owner: "owner",
@@ -71,5 +71,31 @@ describe("run", () => {
             labels: ["label-value"],
         });
         expect(mockSetFailed).toHaveBeenCalledWith("Test error");
+    });
+
+    it("should set failed if gh-token is not provided", async () => {
+        mockGetInput.mockImplementation((name, options) => {
+            if (name === "gh-token" && options?.required) {
+                throw new Error("Input required and not supplied: gh-token");
+            }
+            return name === "label" ? "label-value" : "";
+        });
+
+        await run();
+
+        expect(mockSetFailed).toHaveBeenCalledWith("Input required and not supplied: gh-token");
+    });
+
+    it("should set failed if label is not provided", async () => {
+        mockGetInput.mockImplementation((name, options) => {
+            if (name === "label" && options?.required) {
+                throw new Error("Input required and not supplied: label");
+            }
+            return name === "gh-token" ? "gh-token-value" : "";
+        });
+
+        await run();
+
+        expect(mockSetFailed).toHaveBeenCalledWith("Input required and not supplied: label");
     });
 });
