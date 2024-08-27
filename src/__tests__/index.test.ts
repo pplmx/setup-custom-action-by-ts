@@ -2,114 +2,74 @@ import { getInput, setFailed } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 import { run } from "../index";
 
-// Mock getInput and setFailed functions
-jest.mock("@actions/core", () => ({
-    getInput: jest.fn(),
-    setFailed: jest.fn(),
-}));
-
-// Mock context and getOctokit functions
-jest.mock("@actions/github", () => ({
-    context: {
-        payload: {
-            pull_request: {
-                number: 1,
-            },
-        },
-        repo: {
-            owner: "owner",
-            repo: "repo",
-        },
-    },
-    getOctokit: jest.fn(),
-}));
+jest.mock("@actions/core");
+jest.mock("@actions/github");
 
 describe("run", () => {
+    const mockGetInput = getInput as jest.MockedFunction<typeof getInput>;
+    const mockSetFailed = setFailed as jest.MockedFunction<typeof setFailed>;
+    const mockGetOctokit = getOctokit as jest.MockedFunction<typeof getOctokit>;
+
+    const mockAddLabels = jest.fn();
+    const mockOctokit = {
+        rest: {
+            issues: {
+                addLabels: mockAddLabels,
+            },
+        },
+    };
+
     beforeEach(() => {
-        // Clear all mock function calls and reset mock implementation
         jest.clearAllMocks();
+        mockGetInput.mockImplementation((name) => {
+            switch (name) {
+                case "gh-token":
+                    return "gh-token-value";
+                case "label":
+                    return "label-value";
+                default:
+                    return "";
+            }
+        });
+        mockGetOctokit.mockReturnValue(mockOctokit as any);
+        (context as any).payload = { pull_request: { number: 1 } };
+        (context as any).repo = { owner: "owner", repo: "repo" };
     });
 
     it("should throw an error if not run on a pull request", async () => {
-        // Mock the return values for getInput
-        (getInput as jest.Mock).mockReturnValueOnce("gh-token-value");
-        (getInput as jest.Mock).mockReturnValueOnce("label-value");
-        (context as any).payload.pull_request = undefined;
+        (context as any).payload = {};
 
-        // Run the function
         await run();
 
-        // Assertions
-        expect(setFailed).toHaveBeenCalledWith("This action can only be run on Pull Requests");
+        expect(mockSetFailed).toHaveBeenCalledWith("This action can only be run on Pull Requests");
     });
 
     it("should add label to the pull request", async () => {
-        // Mock the return values for getInput
-        (getInput as jest.Mock).mockReturnValueOnce("gh-token-value");
-        (getInput as jest.Mock).mockReturnValueOnce("label-value");
-        (context as any).payload.pull_request = {
-            number: 1,
-        };
-
-        // Mock the Octokit instance and the addLabels method
-        const mockAddLabels = jest.fn();
-        const mockOctokit = {
-            rest: {
-                issues: {
-                    addLabels: mockAddLabels,
-                },
-            },
-        };
-        (getOctokit as jest.Mock).mockReturnValueOnce(mockOctokit);
-
-        // Run the function
         await run();
 
-        // Assertions
-        expect(getInput).toHaveBeenCalledWith("gh-token");
-        expect(getInput).toHaveBeenCalledWith("label");
-        expect(getOctokit).toHaveBeenCalledWith("gh-token-value");
+        expect(mockGetInput).toHaveBeenCalledWith("gh-token");
+        expect(mockGetInput).toHaveBeenCalledWith("label");
+        expect(mockGetOctokit).toHaveBeenCalledWith("gh-token-value");
         expect(mockAddLabels).toHaveBeenCalledWith({
             owner: "owner",
             repo: "repo",
             issue_number: 1,
             labels: ["label-value"],
         });
-        expect(setFailed).not.toHaveBeenCalled();
+        expect(mockSetFailed).not.toHaveBeenCalled();
     });
 
     it("should handle error and set failed", async () => {
-        // Mock the return values for getInput
-        (getInput as jest.Mock).mockReturnValueOnce("gh-token-value");
-        (getInput as jest.Mock).mockReturnValueOnce("label-value");
-        (context as any).payload.pull_request = {
-            number: 1,
-        };
+        mockAddLabels.mockRejectedValueOnce(new Error("Test error"));
 
-        // Mock the Octokit instance and throw an error in addLabels
-        const mockAddLabels = jest.fn().mockRejectedValueOnce(new Error("Test error"));
-        const mockOctokit = {
-            rest: {
-                issues: {
-                    addLabels: mockAddLabels,
-                },
-            },
-        };
-        (getOctokit as jest.Mock).mockReturnValueOnce(mockOctokit);
-
-        // Run the function
         await run();
 
-        // Assertions
-        expect(getInput).toHaveBeenCalledWith("gh-token");
-        expect(getInput).toHaveBeenCalledWith("label");
-        expect(getOctokit).toHaveBeenCalledWith("gh-token-value");
         expect(mockAddLabels).toHaveBeenCalledWith({
             owner: "owner",
             repo: "repo",
             issue_number: 1,
             labels: ["label-value"],
         });
-        expect(setFailed).toHaveBeenCalledWith("Test error");
+        expect(mockSetFailed).toHaveBeenCalledWith("Test error");
     });
 });
