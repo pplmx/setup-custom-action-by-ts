@@ -1,6 +1,6 @@
-import { run } from "../index";
 import { getInput, setFailed } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
+import { run } from "../index";
 
 // Mock getInput and setFailed functions
 jest.mock("@actions/core", () => ({
