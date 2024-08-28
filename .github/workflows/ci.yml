@@ -9,7 +9,7 @@ on:
 
 jobs:
     build-and-test:
-        name: Node.js-${{ matrix.node }}
+        name: Node.js-${{ matrix.node }} on ${{ matrix.os }}
 
         strategy:
             matrix:
