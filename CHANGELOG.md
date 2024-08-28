@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0](https://github.com/pplmx/setup-custom-action-by-ts/compare/v0.1.1..v0.2.0) - 2024-08-28
+
+### 📚 Documentation
+
+- Some minor changes - ([2070dd9](https://github.com/pplmx/setup-custom-action-by-ts/commit/2070dd9efae9fe083314bac1e86912f7efd80d9a))
+
+### ⚙️ Miscellaneous Tasks
+
+- Drop support node 18 - ([9fdaff4](https://github.com/pplmx/setup-custom-action-by-ts/commit/9fdaff4d654671a337ccf15f936a3aaf0e5d5e59))
+
+
 ## [0.1.1](https://github.com/pplmx/setup-custom-action-by-ts/compare/v0.1.0..v0.1.1) - 2024-08-28
 
 ### 📚 Documentation
@@ -12,9 +23,6 @@ All notable changes to this project will be documented in this file.
 
 - Fix the typos - ([f5bc9fe](https://github.com/pplmx/setup-custom-action-by-ts/commit/f5bc9fe228af900d7d04dd593ab8d2957ad387cd))
 
-## New Contributors ❤️
-
-* @github-actions[bot] made their first contribution
 
 ## [0.1.0] - 2024-08-28
 
