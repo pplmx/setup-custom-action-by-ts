@@ -1,6 +1,6 @@
-# Development Guide for setup-me-action
+# Development Guide for setup-custom-action-by-ts
 
-Welcome to the development guide for `setup-me-action`! This document will guide you through setting up your development environment, running tests, building the project, and maintaining code quality.
+Welcome to the development guide for `setup-custom-action-by-ts`! This document will guide you through setting up your development environment, running tests, building the project, and maintaining code quality.
 
 ## Table of Contents
 
@@ -35,8 +35,8 @@ Before you begin, make sure you have the following installed on your system:
 1. **Clone the Repository**: Start by cloning the project repository to your local machine and navigate to the project directory:
 
     ```bash
-    git clone https://github.com/pplmx/setup-me-action.git
-    cd setup-me-action
+    git clone https://github.com/pplmx/setup-custom-action-by-ts.git
+    cd setup-custom-action-by-ts
     ```
 
 2. **Install Dependencies**: Use npm or yarn to install all necessary dependencies:
@@ -89,4 +89,4 @@ This command will check the codebase for any style issues and ensure that all co
 
 ---
 
-By following this guide, you'll be well-prepared to contribute to `setup-me-action`. Thank you for helping maintain and improve this project!
+By following this guide, you'll be well-prepared to contribute to `setup-custom-action-by-ts`. Thank you for helping maintain and improve this project!

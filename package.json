@@ -1,11 +1,11 @@
 {
-    "name": "setup-me-action",
+    "name": "setup-custom-action-by-ts",
     "version": "0.1.0",
     "description": "A custom GitHub Action using typescript",
     "author": "Mystic",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/pplmx/setup-me-action"
+        "url": "git+https://github.com/pplmx/setup-custom-action-by-ts"
     },
     "license": "MIT",
     "scripts": {

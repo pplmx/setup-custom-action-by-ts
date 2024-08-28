@@ -35,13 +35,13 @@ jobs:
                     context: .
                     load: true
                     tags: |
-                        ghcr.io/pplmx/setup-me-action:latest
-                        ghcr.io/pplmx/setup-me-action:${GITHUB_REF_NAME:1}
+                        ghcr.io/pplmx/setup-custom-action-by-ts:latest
+                        ghcr.io/pplmx/setup-custom-action-by-ts:${GITHUB_REF_NAME:1}
             -
                 name: Test it before Push
                 run: |
-                    docker run --rm ghcr.io/pplmx/setup-me-action:latest
-                    docker run --rm ghcr.io/pplmx/setup-me-action:${GITHUB_REF_NAME:1}
+                    docker run --rm ghcr.io/pplmx/setup-custom-action-by-ts:latest
+                    docker run --rm ghcr.io/pplmx/setup-custom-action-by-ts:${GITHUB_REF_NAME:1}
             -
                 name: Build and Push
                 uses: docker/build-push-action@v6
@@ -50,5 +50,5 @@ jobs:
                     platforms: linux/amd64,linux/arm64
                     push: true
                     tags: |
-                        ghcr.io/pplmx/setup-me-action:latest
-                        ghcr.io/pplmx/setup-me-action:${GITHUB_REF_NAME:1}
+                        ghcr.io/pplmx/setup-custom-action-by-ts:latest
+                        ghcr.io/pplmx/setup-custom-action-by-ts:${GITHUB_REF_NAME:1}

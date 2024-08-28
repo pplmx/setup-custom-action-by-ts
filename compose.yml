@@ -1,13 +1,13 @@
 services:
-    setup-me-action:
+    setup-custom-action-by-ts:
         build: .
-        image: setup-me-action
+        image: setup-custom-action-by-ts
         ports:
             - 8000:8000
 
 networks:
-    setup-me-action-net:
-        name: setup-me-action-net
+    setup-custom-action-by-ts-net:
+        name: setup-custom-action-by-ts-net
         ipam:
             config:
                 -   subnet: 172.16.238.0/24

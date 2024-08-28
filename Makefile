@@ -1,7 +1,7 @@
 .PHONY: help build test image clean
 .DEFAULT_GOAL := help
 
-APP_NAME := setup-me-action
+APP_NAME := setup-custom-action-by-ts
 
 # Init the venv
 init:

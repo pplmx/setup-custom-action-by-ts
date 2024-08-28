@@ -37,7 +37,7 @@ Steps to reproduce the behavior:
 <!-- Please fill the following information. -->
 
 - OS: [e.g. Ubuntu 20.04]
-- setup_me_action version: [e.g. 0.1.0]
+- setup_custom_action_by_ts version: [e.g. 0.1.0]
 
 ## Additional context
 

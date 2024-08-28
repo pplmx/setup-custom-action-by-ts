@@ -1,9 +1,9 @@
-# setup-me-action
+# setup-custom-action-by-ts
 
-[![CI](https://github.com/pplmx/setup-me-action/workflows/CI/badge.svg)](https://github.com/pplmx/setup-me-action/actions)
-[![Coverage Status](https://coveralls.io/repos/github/pplmx/setup-me-action/badge.svg?branch=main)](https://coveralls.io/github/pplmx/setup-me-action?branch=main)
-[![NPM version](https://badge.fury.io/js/setup-me-action.svg)](https://badge.fury.io/js/setup-me-action)
-[![Node Version](https://img.shields.io/node/v/setup-me-action.svg)](https://nodejs.org/en/)
+[![CI](https://github.com/pplmx/setup-custom-action-by-ts/workflows/CI/badge.svg)](https://github.com/pplmx/setup-custom-action-by-ts/actions)
+[![Coverage Status](https://coveralls.io/repos/github/pplmx/setup-custom-action-by-ts/badge.svg?branch=main)](https://coveralls.io/github/pplmx/setup-custom-action-by-ts?branch=main)
+[![NPM version](https://badge.fury.io/js/setup-custom-action-by-ts.svg)](https://badge.fury.io/js/setup-custom-action-by-ts)
+[![Node Version](https://img.shields.io/node/v/setup-custom-action-by-ts.svg)](https://nodejs.org/en/)
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@
 
 ## Overview
 
-`setup-me-action` is a TypeScript project designed to [brief description of the project's main purpose or functionality]. This project aims to [explain the primary goals or problems it solves].
+`setup-custom-action-by-ts` is a TypeScript project designed to [brief description of the project's main purpose or functionality]. This project aims to [explain the primary goals or problems it solves].
 
 ## Features
 
@@ -34,7 +34,7 @@
 ## Quick Start
 
 ```typescript
-import { doSomething } from 'setup-me-action';
+import { doSomething } from 'setup-custom-action-by-ts';
 
 // Example usage
 const result = doSomething();
@@ -53,16 +53,16 @@ console.log(result);
   - [Add more dependencies as needed]
 
 ### User Installation
-Install `setup-me-action` using npm:
+Install `setup-custom-action-by-ts` using npm:
 
 ```bash
-npm install setup-me-action
+npm install setup-custom-action-by-ts
 ```
 
 Or using yarn:
 
 ```bash
-yarn add setup-me-action
+yarn add setup-custom-action-by-ts
 ```
 
 ## Usage
@@ -70,7 +70,7 @@ yarn add setup-me-action
 Here's a brief overview of basic usage:
 
 ```typescript
-import { doSomething } from 'setup-me-action';
+import { doSomething } from 'setup-custom-action-by-ts';
 
 // Example usage
 const result = doSomething();
@@ -86,7 +86,7 @@ For information on setting up the development environment, running tests, and co
 
 ## Troubleshooting
 
-If you encounter any issues while using `setup-me-action`, please check our [Troubleshooting Guide](docs/troubleshooting.md) for common problems and their solutions. If you can't find a solution to your problem, please [open an issue](https://github.com/pplmx/setup-me-action/issues) on our GitHub repository.
+If you encounter any issues while using `setup-custom-action-by-ts`, please check our [Troubleshooting Guide](docs/troubleshooting.md) for common problems and their solutions. If you can't find a solution to your problem, please [open an issue](https://github.com/pplmx/setup-custom-action-by-ts/issues) on our GitHub repository.
 
 ## Contributing
 
