@@ -1,7 +1,7 @@
 {
     "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
     "files": {
-        "ignore": ["**/dist/index.js", "**/lib/index.js", "**/coverage/*"]
+        "ignore": ["**/node_modules/**", "**/dist/**", "**/build/**", "**/coverage/**", "lib"]
     },
     "formatter": {
         "enabled": true,
@@ -14,8 +14,12 @@
     },
     "linter": {
         "enabled": true,
-        "rules": { "recommended": true },
+        "rules": {
+            "recommended": true
+        },
         "ignore": ["**/*.test.ts"]
     },
-    "organizeImports": { "enabled": true }
+    "organizeImports": {
+        "enabled": true
+    }
 }

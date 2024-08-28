@@ -1,16 +1,25 @@
 {
+    "name": "setup-me-action",
+    "version": "0.1.0",
+    "description": "A custom GitHub Action using typescript",
+    "author": "Mystic",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pplmx/setup-me-action"
+    },
+    "license": "MIT",
     "scripts": {
         "build": "tsc && ncc build lib/index.js",
         "test": "jest",
         "lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
-        "prepare": "husky install"
+        "prepare": "husky install | chmod ug+x .husky/*"
     },
     "dependencies": {
         "@actions/core": "^1.10.1",
-        "@actions/github": "^6.0.0",
-        "@vercel/ncc": "^0.38.1"
+        "@actions/github": "^6.0.0"
     },
     "devDependencies": {
+        "@vercel/ncc": "^0.38.1",
         "@biomejs/biome": "1.8.3",
         "@types/jest": "^29.5.12",
         "husky": "^8.0.0",
