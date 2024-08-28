@@ -1,114 +1,79 @@
-# setup-custom-action-by-ts
+# Example GitHub Action Using TypeScript
 
-[![CI](https://github.com/pplmx/setup-custom-action-by-ts/workflows/CI/badge.svg)](https://github.com/pplmx/setup-custom-action-by-ts/actions)
-[![Coverage Status](https://coveralls.io/repos/github/pplmx/setup-custom-action-by-ts/badge.svg?branch=main)](https://coveralls.io/github/pplmx/setup-custom-action-by-ts?branch=main)
-[![NPM version](https://badge.fury.io/js/setup-custom-action-by-ts.svg)](https://badge.fury.io/js/setup-custom-action-by-ts)
-[![Node Version](https://img.shields.io/node/v/setup-custom-action-by-ts.svg)](https://nodejs.org/en/)
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Development](#development)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-- [Changelog](#changelog)
-- [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
+[![CI](https://github.com/yourusername/your-repo-name/workflows/CI/badge.svg)](https://github.com/yourusername/your-repo-name/actions)
+[![Coverage Status](https://coveralls.io/repos/github/yourusername/your-repo-name/badge.svg?branch=main)](https://coveralls.io/github/yourusername/your-repo-name?branch=main)
 
 ## Overview
 
-`setup-custom-action-by-ts` is a TypeScript project designed to [brief description of the project's main purpose or functionality]. This project aims to [explain the primary goals or problems it solves].
+**Example GitHub Action Using TypeScript** is a custom GitHub Action designed to handle text processing, lists, and API
+requests efficiently using TypeScript. The action is configured using a TOML file.
 
 ## Features
 
-- **Feature 1**: [Detailed description of feature 1 and its benefits]
-- **Feature 2**: [Detailed description of feature 2 and its benefits]
-- **Feature 3**: [Detailed description of feature 3 and its benefits]
-- [Add more features as needed]
+- **Text Processing**: Perform find-and-replace operations on provided text.
+- **List Operations**: Calculate word count, sum, and average for provided data.
+- **API Requests**: Fetch data from APIs and extract specific fields.
+- **Configuration**: Fully configurable via a TOML file.
 
-## Quick Start
+## Inputs
 
-```typescript
-import { doSomething } from 'setup-custom-action-by-ts';
+| Name          | Description                         | Required | Default |
+|---------------|-------------------------------------|----------|---------|
+| `config_path` | Path to the TOML configuration file | Yes      | N/A     |
 
-// Example usage
-const result = doSomething();
-console.log(result);
+## Outputs
 
-// Add more examples showcasing key features
-```
-
-## Installation
-
-### Requirements
-- Node.js 22+
-- Dependencies:
-  - [Dependency 1]: [version] - [brief description or purpose]
-  - [Dependency 2]: [version] - [brief description or purpose]
-  - [Add more dependencies as needed]
-
-### User Installation
-Install `setup-custom-action-by-ts` using npm:
-
-```bash
-npm install setup-custom-action-by-ts
-```
-
-Or using yarn:
-
-```bash
-yarn add setup-custom-action-by-ts
-```
+| Name             | Description                               |
+|------------------|-------------------------------------------|
+| `processed_text` | The processed text after find and replace |
+| `word_count`     | The total number of words in the text     |
+| `sum`            | The sum of the numbers                    |
+| `average`        | The average of the numbers                |
+| `response_field` | A specific field from the API response    |
 
 ## Usage
 
-Here's a brief overview of basic usage:
+To use this GitHub Action in your workflow, you can define a step that utilizes it. Here's an example:
 
-```typescript
-import { doSomething } from 'setup-custom-action-by-ts';
+```yaml
+name: Example Workflow
+on: [ push ]
 
-// Example usage
-const result = doSomething();
-console.log(result);
+jobs:
+    example-job:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Run Example GitHub Action Using TypeScript
+                uses: pplmx/setup-custom-action-by-ts@main
 
 ```
 
-For more detailed examples and explanations of key concepts, please refer to our comprehensive [Usage Guide](docs/usage.md).
+You can also follow [this](.github/workflows/test_custom_action_itself.yml).
 
-## Development
+## Local Development
 
-For information on setting up the development environment, running tests, and contributing to the project, please refer to our [Development Guide](docs/development.md).
+To set up the project locally:
 
-## Troubleshooting
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Use `npm run build` to compile TypeScript
+4. Run tests with `npm test`
 
-If you encounter any issues while using `setup-custom-action-by-ts`, please check our [Troubleshooting Guide](docs/troubleshooting.md) for common problems and their solutions. If you can't find a solution to your problem, please [open an issue](https://github.com/pplmx/setup-custom-action-by-ts/issues) on our GitHub repository.
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to submit pull requests, report issues, or suggest improvements.
+For more detailed instructions, please refer to the [Development Documentation](docs/development.md).
 
 ## License
 
-This project is licensed under either of:
+This project is dual-licensed under either of the following licenses, at your option:
 
-- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-- MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE)
+  or [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0))
+- MIT license ([LICENSE-MIT](LICENSE-MIT) or [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT))
 
-at your option.
+## Contribution
 
-## Changelog
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as
+defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
-For a detailed history of changes to this project, please refer to our [CHANGELOG.md](CHANGELOG.md).
-
-## Contact
-
-[Provide information on how to contact the maintainers or where to ask questions]
-
-## Acknowledgements
-
-[Acknowledge contributors, inspirations, or resources used in the project]
+For more details, see [CONTRIBUTING.md](CONTRIBUTING.md).

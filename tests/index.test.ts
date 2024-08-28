@@ -1,113 +1,72 @@
-import { getInput, setFailed } from "@actions/core";
-import { context, getOctokit } from "@actions/github";
+import * as fs from "node:fs/promises";
+import * as core from "@actions/core";
+import axios from "axios";
 import { run } from "../src";
 
 jest.mock("@actions/core");
-jest.mock("@actions/github");
+jest.mock("node:fs/promises");
+jest.mock("axios");
+
+const mockConfig = `
+text = "Hello world! Hello!"
+find = "Hello"
+replace = "Hi"
+numbers = [1, 2, 3, 4, 5]
+api_url = "https://api.example.com/data"
+response_field = "important_field"
+`;
 
 describe("GitHub Action", () => {
-    const mockGetInput = getInput as jest.MockedFunction<typeof getInput>;
-    const mockSetFailed = setFailed as jest.MockedFunction<typeof setFailed>;
-    const mockGetOctokit = getOctokit as jest.MockedFunction<typeof getOctokit>;
-
-    const mockAddLabels = jest.fn();
-    const mockOctokit = {
-        rest: {
-            issues: {
-                addLabels: mockAddLabels,
-            },
-        },
-    };
+    const mockGetInput = jest.spyOn(core, "getInput");
+    const mockSetOutput = jest.spyOn(core, "setOutput");
+    const mockSetFailed = jest.spyOn(core, "setFailed");
+    const mockWarning = jest.spyOn(core, "warning");
+    const mockReadFile = fs.readFile as jest.MockedFunction<typeof fs.readFile>;
+    const mockAxiosGet = axios.get as jest.MockedFunction<typeof axios.get>;
 
     beforeEach(() => {
-        jest.clearAllMocks();
-        mockGetInput.mockImplementation((name) => {
-            switch (name) {
-                case "gh-token":
-                    return "gh-token-value";
-                case "label":
-                    return "label-value";
-                default:
-                    return "";
-            }
-        });
-        mockGetOctokit.mockReturnValue(mockOctokit as any);
-        (context as any).payload = { pull_request: { number: 1 } };
-        (context as any).repo = { owner: "owner", repo: "repo" };
+        jest.resetAllMocks();
+        mockGetInput.mockReturnValue(".github/configs/setup-custom-action-by-ts.toml");
+        mockReadFile.mockResolvedValue(mockConfig);
+        mockAxiosGet.mockResolvedValue({ data: { important_field: "field_value" } });
     });
 
-    describe("run function", () => {
-        it("should set failed if not run on a pull request", async () => {
-            (context as any).payload = {};
+    it("should process text, count words, calculate sum and average, and fetch API data correctly", async () => {
+        await run();
 
-            await run();
+        expect(mockSetOutput).toHaveBeenCalledWith("processed_text", "Hi world! Hi!");
+        expect(mockSetOutput).toHaveBeenCalledWith("word_count", 3);
+        expect(mockSetOutput).toHaveBeenCalledWith("sum", 15);
+        expect(mockSetOutput).toHaveBeenCalledWith("average", 3);
+        expect(mockSetOutput).toHaveBeenCalledWith("response_field", "field_value");
+    });
 
-            expect(mockSetFailed).toHaveBeenCalledWith("This action can only be run on Pull Requests");
-        });
+    it("should handle missing configuration file gracefully", async () => {
+        mockReadFile.mockRejectedValue(new Error("File not found"));
 
-        it("should add label to the pull request", async () => {
-            await run();
+        await run();
 
-            expect(mockGetInput).toHaveBeenCalledWith("gh-token", { required: true });
-            expect(mockGetInput).toHaveBeenCalledWith("label", { required: true });
-            expect(mockGetOctokit).toHaveBeenCalledWith("gh-token-value");
-            expect(mockAddLabels).toHaveBeenCalledWith({
-                owner: "owner",
-                repo: "repo",
-                issue_number: 1,
-                labels: ["label-value"],
-            });
-            expect(mockSetFailed).not.toHaveBeenCalled();
-        });
+        expect(mockSetFailed).toHaveBeenCalledWith("Action failed with error: File not found");
+    });
 
-        it("should handle error and set failed", async () => {
-            mockAddLabels.mockRejectedValueOnce(new Error("Test error"));
+    it("should handle errors from API request gracefully", async () => {
+        mockAxiosGet.mockRejectedValue(new Error("API error"));
 
-            await run();
+        await run();
 
-            expect(mockAddLabels).toHaveBeenCalledWith({
-                owner: "owner",
-                repo: "repo",
-                issue_number: 1,
-                labels: ["label-value"],
-            });
-            expect(mockSetFailed).toHaveBeenCalledWith("Test error");
-        });
+        expect(mockWarning).toHaveBeenCalledWith("API request failed: API error");
+        expect(mockSetOutput).toHaveBeenCalledWith("response_field", "");
+    });
 
-        it("should set failed if gh-token is not provided", async () => {
-            mockGetInput.mockImplementation((name, options) => {
-                if (name === "gh-token" && options?.required) {
-                    throw new Error("Input required and not supplied: gh-token");
-                }
-                return name === "label" ? "label-value" : "";
-            });
+    it("should use default values when config is empty", async () => {
+        mockReadFile.mockResolvedValue("");
 
-            await run();
+        await run();
 
-            expect(mockSetFailed).toHaveBeenCalledWith("Input required and not supplied: gh-token");
-        });
-
-        it("should set failed if label is not provided", async () => {
-            mockGetInput.mockImplementation((name, options) => {
-                if (name === "label" && options?.required) {
-                    throw new Error("Input required and not supplied: label");
-                }
-                return name === "gh-token" ? "gh-token-value" : "";
-            });
-
-            await run();
-
-            expect(mockSetFailed).toHaveBeenCalledWith("Input required and not supplied: label");
-        });
-
-        it("should set failed with generic message for unexpected errors", async () => {
-            mockGetOctokit.mockImplementation(() => {
-                throw new Error("Unexpected error");
-            });
-
-            await run();
-
-            expect(mockSetFailed).toHaveBeenCalledWith("Unexpected error");
-        });
+        expect(mockSetOutput).toHaveBeenCalledWith("processed_text", "");
+        expect(mockSetOutput).toHaveBeenCalledWith("word_count", 0);
+        expect(mockSetOutput).toHaveBeenCalledWith("sum", 0);
+        expect(mockSetOutput).toHaveBeenCalledWith("average", 0);
+        expect(mockSetOutput).toHaveBeenCalledWith("response_field", "");
     });
 });

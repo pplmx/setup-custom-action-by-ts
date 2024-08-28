@@ -1,25 +1,56 @@
-import { getInput, setFailed } from "@actions/core";
-import { context, getOctokit } from "@actions/github";
+import * as fs from "node:fs/promises";
+import * as core from "@actions/core";
+import axios from "axios";
+import * as toml from "toml";
+
+interface Config {
+    text?: string;
+    find?: string;
+    replace?: string;
+    numbers?: number[];
+    api_url?: string;
+    response_field?: string;
+}
 
 export async function run(): Promise<void> {
     try {
-        const token = getInput("gh-token", { required: true });
-        const label = getInput("label", { required: true });
+        const configPath = core.getInput("config_path") || ".github/configs/setup-custom-action-by-ts.toml";
 
-        const pullRequest = context.payload.pull_request;
-        if (!pullRequest) {
-            setFailed("This action can only be run on Pull Requests");
-            return;
+        const configContent = await fs.readFile(configPath, "utf-8");
+        const config: Config = toml.parse(configContent);
+
+        const {
+            text = "",
+            find = "",
+            replace = "",
+            numbers = [],
+            api_url: apiUrl = "",
+            response_field: responseField = "",
+        } = config;
+
+        const processedText = text.replace(new RegExp(find, "g"), replace);
+        const wordCount = processedText.trim() === "" ? 0 : processedText.trim().split(/\s+/).length;
+
+        const sum = numbers.reduce((acc: number, num: number) => acc + num, 0);
+        const average = numbers.length > 0 ? sum / numbers.length : 0;
+
+        let responseFieldValue = "";
+        if (apiUrl && responseField) {
+            try {
+                const { data } = await axios.get<Record<string, unknown>>(apiUrl);
+                responseFieldValue = (data[responseField] as string) ?? "";
+            } catch (error) {
+                core.warning(`API request failed: ${error instanceof Error ? error.message : String(error)}`);
+            }
         }
 
-        const octokit = getOctokit(token);
-        await octokit.rest.issues.addLabels({
-            ...context.repo,
-            issue_number: pullRequest.number,
-            labels: [label],
-        });
+        core.setOutput("processed_text", processedText);
+        core.setOutput("word_count", wordCount);
+        core.setOutput("sum", sum);
+        core.setOutput("average", average);
+        core.setOutput("response_field", responseFieldValue);
     } catch (error) {
-        setFailed(error instanceof Error ? error.message : "An unexpected error occurred");
+        core.setFailed(`Action failed with error: ${error instanceof Error ? error.message : String(error)}`);
     }
 }
 

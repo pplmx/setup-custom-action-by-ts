@@ -1,16 +1,27 @@
-name: 'My Custom Action'
-description: 'Say Hello'
+name: 'Example GitHub Action Using TypeScript'
+description: 'A GitHub Action that handles text, lists, files, and API requests using Go, configured via TOML'
 author: 'Mystic'
 branding:
-    icon: 'activity'
-    color: 'green'
-
+    icon: 'activity'  # Choose an icon
+    color: 'green'  # Choose a color
 runs:
-    using: 'node22'
+    using: 'node20'
     main: 'dist/index.js'
 
 inputs:
-    name:
-        description: 'The name of the person to greet'
-        required: true
-        default: 'World'
+    config_path:
+        description: 'Path to the TOML configuration file'
+        required: false
+        default: '.github/configs/setup-custom-action-by-ts.toml'
+
+outputs:
+    processed_text:
+        description: 'The processed text after find and replace'
+    word_count:
+        description: 'The total number of words in the text'
+    sum:
+        description: 'The sum of the numbers'
+    average:
+        description: 'The average of the numbers'
+    response_field:
+        description: 'A specific field from the API response'
