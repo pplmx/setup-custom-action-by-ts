@@ -17,9 +17,9 @@ requests efficiently using TypeScript. The action is configured using a TOML fil
 
 ## Inputs
 
-| Name          | Description                         | Required | Default |
-|---------------|-------------------------------------|----------|---------|
-| `config_path` | Path to the TOML configuration file | Yes      | N/A     |
+| Name          | Description                         | Required | Default                                        |
+|---------------|-------------------------------------|----------|------------------------------------------------|
+| `config_path` | Path to the TOML configuration file | No       | .github/configs/setup-custom-action-by-ts.toml |
 
 ## Outputs
 
