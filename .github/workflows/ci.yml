@@ -19,7 +19,7 @@ jobs:
                     - windows-latest
                     - macos-latest
 
-            fail-fast: false
+            fail-fast: true
 
         runs-on: ${{ matrix.os }}
 
@@ -30,6 +30,7 @@ jobs:
                 uses: actions/setup-node@v4
                 with:
                     node-version: ${{ matrix.node }}
+                    cache: "npm"
 
             -   name: Init dependencies
                 run: make init
