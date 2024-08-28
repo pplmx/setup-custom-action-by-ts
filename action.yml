@@ -1,4 +1,4 @@
-name: 'Example GitHub Action Using TypeScript'
+name: 'Example for GitHub Action Using TS'
 description: 'A GitHub Action that handles text, lists, files, and API requests using Go, configured via TOML'
 author: 'Mystic'
 branding:

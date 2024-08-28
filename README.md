@@ -1,11 +1,11 @@
-# Example GitHub Action Using TypeScript
+# Example for GitHub Action Using TS
 
 [![CI](https://github.com/pplmx/setup-custom-action-by-ts/workflows/CI/badge.svg)](https://github.com/pplmx/setup-custom-action-by-ts/actions)
 [![Coverage Status](https://coveralls.io/repos/github/pplmx/setup-custom-action-by-ts/badge.svg?branch=main)](https://coveralls.io/github/pplmx/setup-custom-action-by-ts?branch=main)
 
 ## Overview
 
-**Example GitHub Action Using TypeScript** is a custom GitHub Action designed to handle text processing, lists, and API
+**Example for GitHub Action Using TS** is a custom GitHub Action designed to handle text processing, lists, and API
 requests efficiently using TypeScript. The action is configured using a TOML file.
 
 ## Features
@@ -45,7 +45,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v4
 
-            -   name: Run Example GitHub Action Using TypeScript
+            -   name: Run Example for GitHub Action Using TS
                 uses: pplmx/setup-custom-action-by-ts@main
 
 ```
