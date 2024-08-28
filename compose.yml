@@ -1,0 +1,13 @@
+services:
+    setup-me-action:
+        build: .
+        image: setup-me-action
+        ports:
+            - 8000:8000
+
+networks:
+    setup-me-action-net:
+        name: setup-me-action-net
+        ipam:
+            config:
+                -   subnet: 172.16.238.0/24

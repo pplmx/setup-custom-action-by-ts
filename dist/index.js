@@ -31099,28 +31099,30 @@ exports.run = run;
 const core_1 = __nccwpck_require__(2186);
 const github_1 = __nccwpck_require__(5438);
 async function run() {
-    var _a;
-    const token = (0, core_1.getInput)("gh-token");
-    const label = (0, core_1.getInput)("label");
-    const octokit = (0, github_1.getOctokit)(token);
-    const pullRequest = github_1.context.payload.pull_request;
     try {
+        const token = (0, core_1.getInput)("gh-token", { required: true });
+        const label = (0, core_1.getInput)("label", { required: true });
+        const pullRequest = github_1.context.payload.pull_request;
         if (!pullRequest) {
-            throw new Error("This action can only be run on Pull Requests");
+            (0, core_1.setFailed)("This action can only be run on Pull Requests");
+            return;
         }
+        const octokit = (0, github_1.getOctokit)(token);
         await octokit.rest.issues.addLabels({
-            owner: github_1.context.repo.owner,
-            repo: github_1.context.repo.repo,
+            ...github_1.context.repo,
             issue_number: pullRequest.number,
             labels: [label],
         });
     }
     catch (error) {
-        (0, core_1.setFailed)((_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "Unknown error");
+        (0, core_1.setFailed)(error instanceof Error ? error.message : "An unexpected error occurred");
     }
 }
 if (!process.env.JEST_WORKER_ID) {
-    run();
+    run().catch((error) => {
+        console.error("Unhandled error:", error);
+        process.exit(1);
+    });
 }
 
 })();
