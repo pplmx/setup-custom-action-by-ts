@@ -9,7 +9,16 @@ on:
 
 jobs:
     test_custom_action_itself:
-        runs-on: ubuntu-latest
+        name: Test Custom Action on ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                os:
+                    - ubuntu-latest
+                    - macos-latest
+
+        runs-on: ${{ matrix.os }}
+
         steps:
             -   uses: actions/checkout@v4
 
