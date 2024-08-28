@@ -1,7 +1,7 @@
 # Example GitHub Action Using TypeScript
 
-[![CI](https://github.com/yourusername/your-repo-name/workflows/CI/badge.svg)](https://github.com/yourusername/your-repo-name/actions)
-[![Coverage Status](https://coveralls.io/repos/github/yourusername/your-repo-name/badge.svg?branch=main)](https://coveralls.io/github/yourusername/your-repo-name?branch=main)
+[![CI](https://github.com/pplmx/setup-custom-action-by-ts/workflows/CI/badge.svg)](https://github.com/pplmx/setup-custom-action-by-ts/actions)
+[![Coverage Status](https://coveralls.io/repos/github/pplmx/setup-custom-action-by-ts/badge.svg?branch=main)](https://coveralls.io/github/pplmx/setup-custom-action-by-ts?branch=main)
 
 ## Overview
 
