@@ -1,6 +1,6 @@
 {
     "name": "setup-custom-action-by-ts",
-    "version": "0.1.1",
+    "version": "0.2.1",
     "description": "A custom GitHub Action using typescript",
     "author": "Mystic",
     "repository": {

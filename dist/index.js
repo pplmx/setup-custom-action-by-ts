@@ -38,28 +38,40 @@ const fs = __importStar(__nccwpck_require__(3977));
 const core = __importStar(__nccwpck_require__(2186));
 const axios_1 = __importDefault(__nccwpck_require__(8757));
 const toml = __importStar(__nccwpck_require__(4920));
-// Function to check API reachability
 async function checkAPIReachability(apiUrl) {
     try {
         const response = await axios_1.default.get(apiUrl, { timeout: 10000 });
         if (response.status < 200 || response.status >= 300) {
             core.warning(`API is not reachable, status code: ${response.status}`);
         }
+        else {
+            core.info(`API ${apiUrl} is reachable.`);
+        }
     }
     catch (error) {
         core.warning(`Failed to make API request: ${error instanceof Error ? error.message : String(error)}`);
     }
 }
-// Function to read and append text to a file
 async function readAndAppendToFile(inputFile, outputFile, appendText) {
     try {
         const content = await fs.readFile(inputFile, "utf-8");
         const modifiedContent = `${content}\n${appendText}`;
         await fs.writeFile(outputFile, modifiedContent, { encoding: "utf-8" });
+        core.info(`Appended text to file: ${outputFile}`);
     }
     catch (error) {
         throw new Error(`File operation failed: ${error instanceof Error ? error.message : String(error)}`);
     }
+}
+function processText(text, findWord, replaceWord) {
+    const processedText = text.replace(new RegExp(findWord, "g"), replaceWord);
+    const wordCount = processedText.trim() === "" ? 0 : processedText.trim().split(/\s+/).length;
+    return { processedText, wordCount };
+}
+function calculateNumberStats(numbers) {
+    const sum = numbers.reduce((acc, num) => acc + num, 0);
+    const average = numbers.length > 0 ? sum / numbers.length : 0;
+    return { sum, average };
 }
 async function run() {
     try {
@@ -68,27 +80,13 @@ async function run() {
         const config = toml.parse(configContent);
         const { input_text = "", find_word = "", replace_word = "", number_list = [], input_file = "", output_file = "", append_text = "", api_url = "", } = config;
         if (api_url) {
-            try {
-                await checkAPIReachability(api_url);
-                core.info(`API ${api_url} is reachable.`);
-            }
-            catch (error) {
-                core.warning(error instanceof Error ? error.message : String(error));
-            }
+            await checkAPIReachability(api_url);
         }
         if (input_file && output_file && append_text) {
-            try {
-                await readAndAppendToFile(input_file, output_file, append_text);
-                core.info(`Appended text to file: ${output_file}`);
-            }
-            catch (error) {
-                core.warning(error instanceof Error ? error.message : String(error));
-            }
+            await readAndAppendToFile(input_file, output_file, append_text);
         }
-        const processedText = input_text.replace(new RegExp(find_word, "g"), replace_word);
-        const wordCount = processedText.trim() === "" ? 0 : processedText.trim().split(/\s+/).length;
-        const sum = number_list.reduce((acc, num) => acc + num, 0);
-        const average = number_list.length > 0 ? sum / number_list.length : 0;
+        const { processedText, wordCount } = processText(input_text, find_word, replace_word);
+        const { sum, average } = calculateNumberStats(number_list);
         core.setOutput("processed_text", processedText);
         core.setOutput("word_count", wordCount);
         core.setOutput("sum", sum);
