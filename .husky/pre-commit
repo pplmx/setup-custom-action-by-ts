@@ -1,2 +1,2 @@
-npm test
-npx lint-staged
+pnpm test
+pnpm dlx lint-staged
