@@ -5,16 +5,15 @@ APP_NAME := setup-custom-action-by-ts
 
 # Init the venv
 init:
-	@git init
-	@npm i
+	@pnpm i
 
 # Build wheel
 build:
-	@npm run build
+	@pnpm build
 
 # Test
 test:
-	@npm test
+	@pnpm test
 
 # Build image
 image:
