@@ -1,45 +1,45 @@
 # Base image for building the application
 FROM node:22-bookworm AS builder
 
+ARG NODE_MIRROR="https://registry.npmmirror.com"
+RUN npm config set -g registry ${NODE_MIRROR}
+
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
-COPY package.json yarn.lock ./
+# Install pnpm globally
+RUN npm install -g pnpm
 
-# Install dependencies
-RUN yarn install
+# Copy package.json and pnpm-lock.yaml to the container
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies using pnpm
+RUN pnpm i --frozen-lockfile
 
 # Copy the rest of the application code
 COPY . .
 
 # Build the application
-RUN yarn build
+RUN pnpm build
 
-# Separate stage for validation (build and test)
-FROM builder AS validator
+# Run tests as part of the build process
+RUN pnpm test
 
-# Run tests as part of the validation
-RUN yarn test
-
-# Final image for running the application
-FROM node:22-slim-bookworm
+# Final image using distroless for running the application
+FROM gcr.io/distroless/nodejs22-debian12
 
 LABEL author="Mystic"
 
 # Set working directory
 WORKDIR /app
 
-# Copy built application code and node_modules from builder
+# Copy built application code and necessary files from builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
-COPY package.json yarn.lock ./
+COPY --from=builder /app/package.json ./
 
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Define a health check
-HEALTHCHECK --start-period=30s CMD curl -f http://localhost:3000 || exit 1
-
 # Start the application
-CMD ["node", "dist/index.js"]
+CMD ["dist/index.js"]
