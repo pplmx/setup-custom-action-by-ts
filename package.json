@@ -1,7 +1,7 @@
 {
     "name": "setup-custom-action-by-ts",
     "version": "0.2.1",
-    "description": "A custom GitHub Action using typescript",
+    "description": "A custom GitHub Action using TypeScript",
     "author": "Mystic",
     "repository": {
         "type": "git",
@@ -22,7 +22,7 @@
         "toml": "^3.0.0"
     },
     "devDependencies": {
-        "@biomejs/biome": "1.9.0",
+        "@biomejs/biome": "^1.9.0",
         "@commitlint/cli": "^19.5.0",
         "@commitlint/config-conventional": "^19.5.0",
         "@commitlint/cz-commitlint": "^19.5.0",

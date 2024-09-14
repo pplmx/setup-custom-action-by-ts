@@ -22,7 +22,7 @@ importers:
         version: 3.0.0
     devDependencies:
       '@biomejs/biome':
-        specifier: 1.9.0
+        specifier: ^1.9.0
         version: 1.9.0
       '@commitlint/cli':
         specifier: ^19.5.0
