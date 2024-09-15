@@ -3,7 +3,7 @@ services:
         build: .
         image: setup-custom-action-by-ts
         ports:
-            - 8000:8000
+            - "8000:8000"
 
 networks:
     setup-custom-action-by-ts-net:
