@@ -1,5 +1,5 @@
 # Base image for building the application
-FROM node:22-bookworm AS builder
+FROM node:24-bookworm AS builder
 
 ARG NODE_MIRROR="https://registry.npmmirror.com"
 RUN npm config set -g registry ${NODE_MIRROR}
