@@ -1,7 +1,7 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
     "files": {
-        "ignore": ["**/node_modules/**", "**/dist/**", "**/build/**", "**/coverage/**", "lib"]
+        "includes": ["**", "!**/node_modules", "!**/dist", "!**/build", "!**/coverage", "!**/lib"]
     },
     "formatter": {
         "enabled": true,
@@ -15,10 +15,8 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true
+            "preset": "recommended"
         }
     },
-    "organizeImports": {
-        "enabled": true
-    }
+    "assist": { "actions": { "source": { "organizeImports": "on" } } }
 }
