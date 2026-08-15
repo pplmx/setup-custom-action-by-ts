@@ -32,7 +32,7 @@
         "@commitlint/types": "^20.0.0",
         "@types/jest": "^30.0.0",
         "@types/node": "^24.0.0",
-        "@vercel/ncc": "^0.38.3",
+        "@vercel/ncc": "^0.45.0",
         "husky": "^9.1.7",
         "inquirer": "^13.0.0",
         "jest": "^30.0.0",
