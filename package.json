@@ -38,7 +38,7 @@
         "jest": "^30.4.2",
         "lint-staged": "^17.3.0",
         "ts-jest": "^29.4.12",
-        "typescript": "^6.0.3"
+        "typescript": "^7.0.0"
     },
     "lint-staged": {
         "*": [
